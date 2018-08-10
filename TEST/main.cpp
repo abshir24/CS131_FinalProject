@@ -13,17 +13,26 @@ void displaySeats(char seats[][30],int size);
 
 void viewTicketPrices(const double[],int size);
 
+void purchaseTicket(char*,const double*,double*);
+
 int main()
 {
     char seats[15][30];
     
     const double ticketPrices[15] = {50,48,46,44,42,40,38,36,34,32,30,28,26,24,22};
     
-    retrieveSeats(seats,15);
+    double purchases[50];
     
-    displaySeats(seats,15);
+    int purchaseArrIdx = 0;
     
-    viewTicketPrices(ticketPrices,15);
+    
+//    retrieveSeats(seats,15);
+//
+//    displaySeats(seats,15);
+    
+//    viewTicketPrices(ticketPrices,15);
+    
+    
 
     return 0;
 }
@@ -121,50 +130,47 @@ void displaySeats(char seats[][30],int size)
     }
 }
 
+//This is the function that views the ticket prices for each row
+
 void viewTicketPrices(const double ticketPrices[],int size)
 {
-    int i,j;
-    
-    cout<<"    "<<"Row";//5 space chars
-    
-    
+    cout<<" "<<"Row";
+
     cout<<setw(8)<<"Price";
     
     cout<<endl;
-    cout<<"   ----|";
     
-    for(i = 2;i <= 4;++i)
-        cout<<"----|";
+    cout<<"|----|";
+    
+    cout<<"|----|";
     
     cout<<endl;
     
-//    for(i = 0;i <size;++i)
-//    {
-//        
-//        for(j = 0;j <31;++j){
-//            
-//            
-//          
-//            
-//            //If the count is less than 30 display the seating info else display the price of the row
-//            
-//            j<30? cout<< setw(4) <<seats[i][j] <<"|" : cout<<setw(width)<< "$"<<rowPrice<<"|" ;
-//            
-//        }
-//        
-//        cout<<endl;
-//        
-//        rowPrice -= 2.0;
-//        
-//        cout<<" -|----";
-//        
-//        for(j = 2;j < 31;++j)
-//            cout<<"|----";
-//        
-//        cout<<"|----|";
-//        cout<<endl;
-//        
-//    }
+    for(int i = 0;i <size;++i)
+    {
+        cout<<"|";
+        
+        cout<<setw(4)<<i+1<<"|";
+        
+        cout<<"|";
+        
+        cout<<setw(2)<<"$"<<ticketPrices[i]<<"|";
+        
+        cout<<endl;
+        
+    }
+    
+}
+
+//Function for purchasing ticket.
+void purchaseTicket(char *seats,const double *prices,double *purchases)
+{
+    int row,seat;
+    do{
+        cout<<"Which row would you like to select?"<<endl;
+    }
+    
+    
 }
 
 
