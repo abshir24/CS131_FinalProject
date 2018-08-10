@@ -15,6 +15,10 @@ void viewTicketPrices(const double[],int size);
 
 void purchaseTicket(char*,const double*,double*);
 
+int numAvailableTickets(char[][30],int);
+
+void checkAvailability(char[][30],int,int[],int[],int&);
+
 int main()
 {
     char seats[15][30];
@@ -62,17 +66,6 @@ void retrieveSeats(char seats[][30],int size)
         }
         
     }
-    
-//    cout<<"Seat display test"<<endl;
-//
-//    for(int i = 0;i<size;i++){
-//
-//        for(int j = 0;j<30;j++)
-//            cout<<seats[i][j];
-//
-//        cout<<endl;
-//    }
-    
 }
 
 //This function takes the newly updated 2D array of seats and organizes it to chart of seats.
@@ -163,15 +156,80 @@ void viewTicketPrices(const double ticketPrices[],int size)
 }
 
 //Function for purchasing ticket.
-void purchaseTicket(char *seats,const double *prices,double *purchases)
+
+void purchaseTicket(char seats[][30],const double prices[],double purchases[],int availableTickets,int seatsSize, int &purchasesIdx)
 {
-    int row,seat;
+    int ticketAmount;
+    
+    //This loop asks the user for the number of tickets that they want to purchase runs untill the user gives a valid number is between 1 and the amount of tickets available
+    
     do{
-        cout<<"Which row would you like to select?"<<endl;
+        cout<<"The number of available tickets are " << availableTickets<<endl;
+        
+        cout<<"How many tickets would you like to purchase? (Ticket amount must be greater than 0 and less than " << availableTickets <<endl;
+        
+        cin>>ticketAmount;
+    }while(ticketAmount < 1 || ticketAmount > availableTickets);
+    
+    
+    //For loop runs for the number of tickets that the user wants to buy
+    
+    for(int i = 0;i<ticketAmount;i--)
+    {
+        cout<<"Select a seat for ticket#" << (ticketAmount - i)<<endl;
+        
+        
     }
     
-    
 }
+
+
+
+//Function to check to see if a seat is available
+
+void checkAvailability(char seats[][30],int seatsSize,int prices[],int purchases[],int &purchasesIdx)
+{
+    int row,seat;
+    
+    //This loop asks the user for the row of the ticket that they want to purchase runs until number is  between 1 and 15
+    do
+    {
+        cout<<"Which row would you like to select?(Row number must be greater than 0 and less than 16)"<<endl;
+        
+        cin>>row;
+    }while(row<1 || row>15);
+    
+    //This loop asks the user for the row of the ticket that they want to purchase runs until number is  between 1 and 30
+    do
+    {
+        cout<<"Which seat would you like to select? Seat number must be greater than 0 and less than 31"<<endl;
+        
+        cin>>seat;
+    }while(seat<1 || seat>30);
+    
+    if(seats[row][seat] == '#')
+    {
+        cout << "This seat is available. The price for this seat is $" << prices[row]<<endl;
+        
+        purchases[purch]
+        
+        
+    }
+}
+
+//Function for checking the number of available tickets
+int numAvailableTickets(char arr[][30],int size)
+{
+    int count = 0;
+    
+    for(int i = 0;i<size;i++)
+        for(int j = 0;j<30;j++)
+            //Check to see if the seat is available and increment count if it is.
+            if(arr[i][j] == '#') count++;
+}
+
+
+
 
 
 
