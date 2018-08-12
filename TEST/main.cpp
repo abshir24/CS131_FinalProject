@@ -7,47 +7,81 @@
 
 using namespace std;
 
-void retrieveSeats(char seats[][30],int size);
+void retrieveSeats(int size);
 
-void displaySeats(char seats[][30],int size);
+void displaySeats(int size);
 
-void viewTicketPrices(const double[],int size);
+void viewTicketPrices(int size);
 
-void purchaseTicket(char[][30],int,const double[],int);
+void purchaseTicket(int,int);
 
-int numAvailableTickets(char[][30],int);
+int numAvailableTickets(int);
 
-bool checkAvailability(char[][30],int,const double[]);
+bool checkAvailability(int);
 
-void updateSeatsDb(char[][30],int size);
+void updateSeatsDb(int size);
 
-void salesReport(char[][30],const double[],int size);
+void salesReport(int size);
+
+void activateHome();
+
+char seats[15][30];
+
+const double ticketPrices[15] = {50,48,46,44,42,40,38,36,34,32,30,28,26,24,22};
 
 
 int main()
 {
-    char seats[15][30];
-    
-    const double ticketPrices[15] = {50,48,46,44,42,40,38,36,34,32,30,28,26,24,22};
-    
-    retrieveSeats(seats,15);
-
-    displaySeats(seats,15);
-    
-//    viewTicketPrices(ticketPrices,15);
-    
-    purchaseTicket(seats,15,ticketPrices,numAvailableTickets(seats, 15));
-    
-    displaySeats(seats,15);
-    
-    salesReport(seats,ticketPrices,15);
+    activateHome();
     
     return 0;
 }
 
+//Activates the home menu
+
+void activateHome()
+{
+    int answer, size = 15;
+    
+    //Retrieves seating from db and places data in seats array
+    
+    retrieveSeats(15);
+    
+    
+    do{
+        cout<<"Please select from the following menu.(1,2,3,4)"<<endl;
+        
+        cout<<"1) Display Seats"<<endl;
+        
+        cout<<"2) View Ticket Prices"<<endl;
+        
+        cout<<"3) Purchase Ticket"<<endl;
+        
+        cout<<"4) View Sales Report"<<endl;
+        
+        cin>>answer;
+        
+    }while(answer < 1 || answer>4);
+        
+        switch(answer){
+            case 1:
+                displaySeats(size);
+                break;
+            case 2:
+                viewTicketPrices(size);
+                break;
+            case 3:
+                purchaseTicket(size,numAvailableTickets(size));
+                break;
+            default:
+                salesReport(size);
+                break;
+        }
+}
+
 
 //This function retrieves the seats from the file and places them into a 2D array
-void retrieveSeats(char seats[][30],int size)
+void retrieveSeats(int size)
 {
     
     ifstream readFile;
@@ -76,7 +110,7 @@ void retrieveSeats(char seats[][30],int size)
 
 //This function takes the newly updated 2D array of seats and organizes it to chart of seats.
 
-void displaySeats(char seats[][30],int size)
+void displaySeats(int size)
 {
     int i,j,width;
     double rowPrice = 50.0;
@@ -131,7 +165,7 @@ void displaySeats(char seats[][30],int size)
 
 //This is the function that views the ticket prices for each row
 
-void viewTicketPrices(const double ticketPrices[],int size)
+void viewTicketPrices(int size)
 {
     cout<<" "<<"Row";
 
@@ -163,7 +197,7 @@ void viewTicketPrices(const double ticketPrices[],int size)
 
 //Function for purchasing ticket.
 
-void purchaseTicket(char seats[][30],int seatsSize,const double prices[],int availableTickets)
+void purchaseTicket(int seatsSize,int availableTickets)
 {
     int ticketAmount;
     
@@ -187,7 +221,7 @@ void purchaseTicket(char seats[][30],int seatsSize,const double prices[],int ava
         
         //If no seat is purchased we will ask the user if they still want to purchase the remaining amount of tickets that they selected
         
-        if(!checkAvailability(seats, seatsSize, prices)){
+        if(!checkAvailability(seatsSize)){
             
             //return if there are no remaining tickets
             
@@ -218,7 +252,7 @@ void purchaseTicket(char seats[][30],int seatsSize,const double prices[],int ava
 
 //Function to check to see if a seat is available
 
-bool checkAvailability(char seats[][30],int seatsSize,const double prices[])
+bool checkAvailability(int seatsSize)
 {
     int row,seat;
     
@@ -248,7 +282,7 @@ bool checkAvailability(char seats[][30],int seatsSize,const double prices[])
     if(seats[row][seat] == '#')
     {
         //Display seat price
-        cout << "This seat is available. The price for this seat is $" << prices[row]<<endl;
+        cout << "This seat is available. The price for this seat is $" << ticketPrices[row]<<endl;
         
         //Update the array to make the seat unavailable
         
@@ -256,7 +290,7 @@ bool checkAvailability(char seats[][30],int seatsSize,const double prices[])
         
         //Update the database
         
-        updateSeatsDb(seats,seatsSize);
+        updateSeatsDb(seatsSize);
 
     }
     else{
@@ -270,7 +304,7 @@ bool checkAvailability(char seats[][30],int seatsSize,const double prices[])
         //If the user answers yes then run the check availability function again
         if(answer[0] == 'Y' || answer[0] == 'y')
             
-            checkAvailability(seats,seatsSize,prices);
+            checkAvailability(seatsSize);
         
         else
             //return false to send them back to ticket purchases
@@ -278,14 +312,14 @@ bool checkAvailability(char seats[][30],int seatsSize,const double prices[])
             
     }
     
-    cout<<"Congratulations seat #"<< row <<","<< seat <<" is currently yours!"<<endl;
+    cout<<"Congratulations seat #"<< (row+1) <<","<< (seat+1) <<" is currently yours!"<<endl;
     
     return true;
 }
 
 //Updates the seat data in the text file.
 
-void updateSeatsDb(char seats[][30],int size)
+void updateSeatsDb(int size)
 {
     ofstream writeFile;
     
@@ -305,7 +339,7 @@ void updateSeatsDb(char seats[][30],int size)
 }
 
 //Function for checking the number of available tickets
-int numAvailableTickets(char arr[][30],int size)
+int numAvailableTickets(int size)
 {
     int count = 0;
     
@@ -315,14 +349,14 @@ int numAvailableTickets(char arr[][30],int size)
             
             //Check to see if the seat is available and increment count if it is.
             
-            if(arr[i][j] == '#') count++;
+            if(seats[i][j] == '#') count++;
     
     return count;
 }
 
 //Function that calculates total sales;
 
-double calculateSales(char seats[][30],const double prices[], int size)
+double calculateSales(int size)
 {
     double totalSales = 0;
     
@@ -332,18 +366,18 @@ double calculateSales(char seats[][30],const double prices[], int size)
             
             //If the seat is sold at the row price to our total sales
             
-            if(seats[i][j] == '*') totalSales += prices[i];
+            if(seats[i][j] == '*') totalSales += ticketPrices[i];
     
     return totalSales;
 }
 
-void salesReport(char seats[][30],const double prices[], int size)
+void salesReport(int size)
 {
-    int available = numAvailableTickets(seats, size),
+    int available = numAvailableTickets(size),
             //The number of tickets sold is the amount of seats total subtracted by the number of available seats
             sold = 450 - available;
     
-    double totalSales = calculateSales(seats,prices,size);
+    double totalSales = calculateSales(size);
     
     cout<<"Tickets sold "<< sold <<" tickets"<<endl;
     
