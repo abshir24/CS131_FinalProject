@@ -63,20 +63,20 @@ void activateHome()
         
     }while(answer < 1 || answer>4);
         
-        switch(answer){
-            case 1:
-                displaySeats(size);
-                break;
-            case 2:
-                viewTicketPrices(size);
-                break;
-            case 3:
-                purchaseTicket(size,numAvailableTickets(size));
-                break;
-            default:
-                salesReport(size);
-                break;
-        }
+    switch(answer){
+        case 1:
+            displaySeats(size);
+            break;
+        case 2:
+            viewTicketPrices(size);
+            break;
+        case 3:
+            purchaseTicket(size,numAvailableTickets(size));
+            break;
+        default:
+            salesReport(size);
+            break;
+    }
 }
 
 
@@ -264,8 +264,7 @@ bool checkAvailability(int seatsSize)
         cin>>row;
     }while(row<1 || row>15);
     
-    //Decrement the row size to fit array index
-    row--;
+    
     
     //This loop asks the user for the row of the ticket that they want to purchase runs until number is  between 1 and 30
     do
@@ -275,11 +274,10 @@ bool checkAvailability(int seatsSize)
         cin>>seat;
     }while(seat<1 || seat>30);
     
-    //Decrement the seat size to fit array index
-    seat--;
+   
     
     //If the seat is available
-    if(seats[row][seat] == '#')
+    if(seats[--row][--seat] == '#')
     {
         //Display seat price
         cout << "This seat is available. The price for this seat is $" << ticketPrices[row]<<endl;
