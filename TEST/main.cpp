@@ -43,6 +43,8 @@ void activateHome()
 {
     int answer, size = 15;
     
+    string userOut;
+    
     //Retrieves seating from db and places data in seats array
     
     retrieveSeats(15);
@@ -65,18 +67,42 @@ void activateHome()
         
     switch(answer){
         case 1:
+            
             displaySeats(size);
+            
             break;
         case 2:
+            
             viewTicketPrices(size);
+            
             break;
         case 3:
+            
             purchaseTicket(size,numAvailableTickets(size));
+            
             break;
         default:
+            
             salesReport(size);
+            
             break;
     }
+    
+    
+    //Ask the user if they want to return to the home menu
+    do{
+        
+        cout<<"Would you like to return back to the home menu?"<<endl;
+        
+        cin>>userOut;
+        
+    }while((userOut[0] != 'Y' && userOut[0] != 'y') && (userOut[0] != 'N' && userOut[0] != 'n'));
+    
+    
+    if(userOut[0] == 'Y' || userOut[0] == 'y')
+        
+        return activateHome();
+    
 }
 
 
@@ -217,7 +243,7 @@ void purchaseTicket(int seatsSize,int availableTickets)
     
     for(int i = 0;i<ticketAmount;i++)
     {
-        cout<<"Select a seat for ticket#" << (i + 1)<<endl;
+        cout<<"Select a seat for ticket #" << (i + 1)<<endl;
         
         //If no seat is purchased we will ask the user if they still want to purchase the remaining amount of tickets that they selected
         
@@ -229,9 +255,14 @@ void purchaseTicket(int seatsSize,int availableTickets)
             
             string answer;
             
-            cout<<"Would you like to purchase the remaining "<< (ticketAmount - (i+1)) << " tickets? (yes or no)"<<endl;
+            do{
+                
+                cout<<"Would you like to purchase the remaining "<< (ticketAmount - (i+1)) << " tickets? (yes or no)"<<endl;
+                
+                cin>>answer;
+                
+            }while((answer[0] != 'Y' && answer[0] != 'y') && (answer[0] != 'N' && answer[0] != 'n'));
             
-            cin>>answer;
             
             //If the user doesn't want to buy their remaining tickets then we will redirect them to the home page.
             
@@ -274,7 +305,6 @@ bool checkAvailability(int seatsSize)
         cin>>seat;
     }while(seat<1 || seat>30);
     
-   
     
     //If the seat is available
     if(seats[--row][--seat] == '#')
@@ -295,9 +325,12 @@ bool checkAvailability(int seatsSize)
         //If the seat is not available ask the user if they want to purchase another ticket
         string answer;
         
-        cout<<"This seat is not available would like to purchase another seat in its place? (yes or no)"<<endl;
+        do{
+            cout<<"This seat is not available would like to purchase another seat in its place? (yes or no)"<<endl;
+            
+            cin>> answer;
+        }while((answer[0] != 'Y' && answer[0] != 'y') && (answer[0] != 'N' && answer[0] != 'n'));
         
-        cin>> answer;
         
         //If the user answers yes then run the check availability function again
         if(answer[0] == 'Y' || answer[0] == 'y')
