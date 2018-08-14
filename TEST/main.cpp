@@ -1,6 +1,4 @@
-#include <iostream>
 #include<string>
-#include<cmath>
 #include<iomanip>
 #include <iostream>
 #include <fstream>
@@ -247,6 +245,8 @@ void purchaseTicket(char seats[][30],const double ticketPrices[15],int available
     
     displaySeats(seats,ticketPrices,15);
     
+    double *runningTotal = nullptr;
+    
     //Copy of seats array for user validation
     
     char seatsCopy[15][30];
@@ -273,7 +273,7 @@ void purchaseTicket(char seats[][30],const double ticketPrices[15],int available
     //Array of prices for seats for the final total for the user
     
     
-    double runningTotal[ticketAmount];
+    runningTotal = new double[ticketAmount];
     
     
     //Ask user if they want to automatically pick seats or manually
@@ -459,9 +459,12 @@ bool checkAvailability(char seats[][30],const double ticketPrices[15],int ticket
 {
     int row, tickets = ticketAmount;
     
+    double *runningTotal = nullptr;
+    
     //Array of prices for seats for the final total for the user
     
-    double runningTotal[ticketAmount];
+    runningTotal = new double[ticketAmount];
+   
     
     //This loop asks the user for the row of the ticket that they want to purchase runs until number is  between 1 and 15
     
